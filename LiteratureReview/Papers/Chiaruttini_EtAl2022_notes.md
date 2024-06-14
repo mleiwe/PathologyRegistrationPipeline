@@ -48,4 +48,33 @@ Somehow we need to find and allocate resources in order to make connections betw
 3. Fiji plugins to bridge elastix and Fiji
 4. A means to apply, store, and re-open the deformation function. --> This is really important, because it means I can register with the brightfield/plain image and then apply this to the version
 
-This is called **Warpy** and there is [documentation](https://imagej.net/plugins/bdv/warpy/warpy) which also contains video tutorials as well, plus the [actual code](https://github.com/BIOP/qupath-extension-warpy)
+### Workflow
+This is called **Warpy** and there is [documentation](https://imagej.net/plugins/bdv/warpy/warpy) which also contains video tutorials as well, plus the [actual code](https://github.com/BIOP/qupath-extension-warpy). Fig 1 describes the workflow, but basically the steps are...
+
+1. Manual rigid registration
+2. Automated affine registration with elastix.
+3. Semi-automated spline registration
+4. Manual spline correction with the BigWarp plugin.
+5. Ouput a transformation file that defines how coordinates can be converted from the moving image to the reference image
+
+![Fig 1](Images/Chiaruttini_EtAl2022_Fig1.png)
+
+### Test Evaluation
+Test data is fixed mouse duodenum, where sections are stained with EdU, then IHC is performed so the same cells are imaged, but with different cameras etc. Additionally there are some stitching artifacts.
+
+Evaluation was based on manually selecting 3,000 landmarks and assessing the distance between the ground truth landmark and the recorded landmark. (Estimate is 6hrs worth of work for them).
+- This is something that can be done at a later stage to see if the error margin is close enough for Yael. The number of points can be determined at a later stage, but the distances will be larger because it will probably be in 3D.
+- In their estimates, the final step (step 4 above) of manual registration marginally improves the registration.
+
+![Fig 2](Images/Chiaruttini_EtAl2022_Fig2.png)
+
+## Discussion and Perspectives
+* The default parameters for Elastix seem to work for their dataset.
+* Manual only is not enough
+* This hasn't been tested in serial sections which means it might not work.
+* We can use alternatives to Elastix as well in this pipeline. E.g. [PyImageJ](https://imagej.net/scripting/pyimagej)
+
+## Conlcusion
+* Clain is that this takes a few minutes per slide.
+* [Tutorials](https://c4science.ch/w/warpy/) available too. (Link does not work - 2024/06/14). But [YouTube video playlist](https://www.youtube.com/watch?v=cgRA9NZ-AOo&list=PL2PJpdamvnti8PqyMdcezGLeAtH6LSy69) is available
+
