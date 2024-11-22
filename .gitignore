@@ -1,2 +1,8 @@
 TestData/
 Software/
+
+# F. Sudre
+.venv/
+data/
+LiteratureReview/
+docs/
